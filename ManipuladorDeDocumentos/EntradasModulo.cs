@@ -24,16 +24,5 @@ namespace ManipuladorDeDocumentos
             Entrada_5 = transEntr[4].ToString();
             Entrada_6 = transEntr[5].ToString();
         }
-
-         
-        //public override string ToString()
-        //{
-        //    return $"Porta 1: {Entrada_1}, " +
-        //        $"Porta 2: {Entrada_2}, " +
-        //        $"Porta 3: {Entrada_3}, " +
-        //        $"Porta 4: {Entrada_4}, " +
-        //        $"Porta 5: {Entrada_5}, " +
-        //        $"Porta 6: {Entrada_6} ";
-        //}
     }
 }

@@ -14,11 +14,7 @@ namespace ManipuladorDeDocumentos
         private int Porta4 { get; set; }
         private int Porta5 { get; set; }
         private int Porta6 { get; set; }
-        //public List<string> ListaEquipamentos { get; set; }
 
-        //-------------------------
-
-        //public ContadorDeEventos() { }
         public List<string> ContarEventos(List<EntradasModulo> portasModulo)
         {
             List<string> ListaEquipamentos = new List<string>();
@@ -53,7 +49,6 @@ namespace ManipuladorDeDocumentos
                             $"Entrada6: {Porta6} ");
             }
         }
-        
         private void ZerarProps()
         {
             Porta1 = 0;

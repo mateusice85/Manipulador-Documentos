@@ -16,13 +16,12 @@ namespace ManipuladorDeDocumentos
             {
                 Conexao conn = new Conexao();
 
-                using (SqlCommand cmd = new SqlCommand("SELECT * from transmissao (nolock)", conn.Conectar()))
+                using (SqlCommand cmd = new SqlCommand("SELECT top 26 * from transmissao (nolock)", conn.Conectar()))
 
                 //using (SqlCommand cmd = new SqlCommand($"select top(1) e.str_descricao, mt.str_transmissao from modulo_transmissao as mt (nolock)" +
                 //    $"join transmissao_data as td (nolock)on td.id_transmissao = mt.id_transmissao " +
                 //    $"join equipamento as e (nolock)on e.id = td.id_equipamento and e.id_empresa = 5 and e.str_descricao = 'AUF1698 - Silas' " +
                 //    $"order by e.str_descricao", conn.Conectar()))
-
                 {
                     using (SqlDataReader rd = cmd.ExecuteReader())
                     {
