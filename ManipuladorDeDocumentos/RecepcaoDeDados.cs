@@ -7,18 +7,21 @@ namespace ManipuladorDeDocumentos
 {
     public class RecepcaoDeDados
     {
-        public List<string> ListaString = new List<string>();
-        public void BuscarNaBase()
+         
+
+        public List<EntradasModulo> BuscarNaBase()
         {
+            List<EntradasModulo> ListaObj = new List<EntradasModulo>();
             try
             {
                 Conexao conn = new Conexao();
 
-                //using (SqlCommand cmd = new SqlCommand("SELECT * from transmissoes (nolock)", conn.Conectar()))
-                using (SqlCommand cmd = new SqlCommand($"select e.str_descricao, mt.str_transmissao from modulo_transmissao as mt (nolock)" +
-                    $"join transmissao_data as td (nolock)on td.id_transmissao = mt.id_transmissao " +
-                    $"join equipamento as e (nolock)on e.id = td.id_equipamento and e.id_empresa = 5" +
-                    $"order by e.str_descricao", conn.Conectar()))
+                using (SqlCommand cmd = new SqlCommand("SELECT * from transmissao (nolock)", conn.Conectar()))
+
+                //using (SqlCommand cmd = new SqlCommand($"select top(1) e.str_descricao, mt.str_transmissao from modulo_transmissao as mt (nolock)" +
+                //    $"join transmissao_data as td (nolock)on td.id_transmissao = mt.id_transmissao " +
+                //    $"join equipamento as e (nolock)on e.id = td.id_equipamento and e.id_empresa = 5 and e.str_descricao = 'AUF1698 - Silas' " +
+                //    $"order by e.str_descricao", conn.Conectar()))
 
                 {
                     using (SqlDataReader rd = cmd.ExecuteReader())
@@ -27,28 +30,43 @@ namespace ManipuladorDeDocumentos
                         {
                             while (rd.Read())
                             {
-                                string str_juntar = "";
+                                string str_juntar_string = "";
                                 for (int i = 0; i < rd.FieldCount; i++)
                                 {
-                                    str_juntar += Convert.ToString(rd[i]);
-                                    str_juntar += " ";
+                                    str_juntar_string += Convert.ToString(rd[i])+";";
                                 }
-                                string[] entrada = str_juntar.Split(';');
-                                string[] entradaEquip = entrada[0].Split(' ');
 
-                                if (entrada[14].Length == 6) ListaString.Add(entradaEquip[0] + "/" + entrada[14]);
-                                else if (entrada[15].Length == 6) ListaString.Add(entradaEquip[0] + "/" + entrada[15]);
-                                else ListaString.Add("Erro");
+                                string[] entrada = str_juntar_string.Split(';');
+                                int cont = entrada[2].Length;
+                                char[] entradasBaseModulo = new char[6];
+                                switch (cont)
+                                {
+                                    case 6:
+                                        entradasBaseModulo = entrada[15].ToCharArray();
+                                        break;
+                                    case 9:
+                                        entradasBaseModulo = entrada[16].ToCharArray();
+                                        break;
+                                    default:
+                                        Console.WriteLine("modulo com string nova - ("+str_juntar_string+")");
+                                        break;
+                                }
+
+                                EntradasModulo entradasDoModulo = new EntradasModulo(entrada[0], entradasBaseModulo);
+                                
+                                ListaObj.Add(entradasDoModulo);
                             }
                         }
                     }
                     conn.Desconectar();
                 }
+                
             }
             catch (SqlException ex)
             {
                 Console.WriteLine("Conexão com problema");
             }
+            return ListaObj;
         }
     }
 }

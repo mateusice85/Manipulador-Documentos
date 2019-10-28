@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using ClosedXML.Excel;
 
@@ -11,8 +12,15 @@ namespace ManipuladorDeDocumentos
             Console.WriteLine("Programa iniciado");
             Console.WriteLine();
 
-            try
+            try 
             {
+                ////testes
+                //string a = "782193";
+                //string b = "007601819";
+                //Console.WriteLine(a.Length.ToString());
+                //Console.WriteLine(b.Length.ToString());
+                ////testes
+
                 Console.Write("Digite 1 para rodar: ");
                 byte resposta = byte.Parse(Console.ReadLine());
                 Console.WriteLine();
@@ -20,12 +28,28 @@ namespace ManipuladorDeDocumentos
                 if (resposta == 1)
                 {
                     RecepcaoDeDados novaLista = new RecepcaoDeDados();
-                    novaLista.BuscarNaBase();
-                    AnaliseString analiseString = new AnaliseString(novaLista.ListaString);
+                    ContadorDeEventos novoEvento = new ContadorDeEventos();
+
+                    List<EntradasModulo> MostrarEvento = new List<EntradasModulo>();
+                    List<string> MostrarContagem = new List<string>();
+
+                    foreach (var item in novaLista.BuscarNaBase())
+                    {
+                        MostrarEvento.Add(item);
+                    }
+                    foreach (var item in novoEvento.ContarEventos(MostrarEvento))
+                    {
+                        MostrarContagem.Add(item);
+                    }
+                    
+                    foreach (var item in MostrarContagem)
+                    {
+                        Console.WriteLine(item);
+                    }
 
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 Console.WriteLine();
                 Console.WriteLine("Opção Inválida");
